@@ -134,11 +134,18 @@ public class Jabeja {
         }
       }
       else{
-        Random r = new Random();
-        if (r.nextDouble() < Math.exp((newVal-prevVal) / T) && newVal>highestBenefit)
+        //is always > 1 when the new solution is better than the old one
+        if (newVal > prevVal && newVal > highestBenefit)
         {
-          highestBenefit = newVal;
-          bestPartner = n;
+            highestBenefit = newVal;
+            bestPartner = n;
+        }
+        else if (newVal < prevVal){
+          Random r = new Random();
+          if (r.nextDouble() < Math.exp((newVal - prevVal) / T) && newVal > highestBenefit) {
+            highestBenefit = newVal;
+            bestPartner = n;
+          }
         }
       }
     }
