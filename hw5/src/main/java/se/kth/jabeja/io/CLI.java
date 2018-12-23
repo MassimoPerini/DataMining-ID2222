@@ -71,6 +71,8 @@ public class CLI {
 
       if (simAnnhTypeInit.equals("EXP"))
         simAnnhMode = SimAnnhType.EXP;
+      else if (simAnnhTypeInit.equals("ALT_EXP"))
+        simAnnhMode = SimAnnhType.ALT_EXP;
 
       if (GRAPH_INIT_COLOR_SELECTION_POLICY.compareToIgnoreCase(GraphInitColorPolicy.RANDOM.toString()) == 0) {
         graphInitColorSelectionPolicy = GraphInitColorPolicy.RANDOM;

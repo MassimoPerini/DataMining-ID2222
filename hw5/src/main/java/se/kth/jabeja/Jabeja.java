@@ -44,6 +44,10 @@ public class Jabeja {
         sampleAndSwap(id);
       }
 
+      if (round % 400 == 0)
+      {
+        this.T = config.getTemperature();
+      }
       //one cycle for all nodes have completed.
       //reduce the temperature
       saCoolDown();
@@ -62,11 +66,16 @@ public class Jabeja {
       if (T < 1)
         T = 1;
     }
-    else{
+    /*else if (ANNH == SimAnnhType.ALT_EXP)
+    {
+
+    }*/
+    else {
       T *= config.getDelta();
       if (T < LOW_BOUND)
         T = (float) LOW_BOUND;
     }
+
   }
 
   /**
@@ -83,7 +92,6 @@ public class Jabeja {
 
       partner = findPartner(nodeId, getNeighbors(nodep));
 
-      // TODO
     }
 
     if (config.getNodeSelectionPolicy() == NodeSelectionPolicy.HYBRID
@@ -92,7 +100,6 @@ public class Jabeja {
       if (partner == null) {
         partner = findPartner(nodeId, getSample(nodeId));
       }
-      // TODO
     }
 
     if (partner != null)
@@ -132,6 +139,23 @@ public class Jabeja {
           highestBenefit = newVal;
           bestPartner = n;
         }
+      }
+      else if (ANNH == SimAnnhType.ALT_EXP)
+      {
+
+        if (newVal > prevVal && newVal > highestBenefit)
+        {
+          highestBenefit = newVal;
+          bestPartner = n;
+        }
+        else if (newVal < prevVal){
+          Random r = new Random();
+          if (r.nextDouble() < Math.exp(((1 / prevVal) - (1 / newVal)) / T) && newVal > highestBenefit) {
+            highestBenefit = newVal;
+            bestPartner = n;
+          }
+        }
+
       }
       else{
         //is always > 1 when the new solution is better than the old one
